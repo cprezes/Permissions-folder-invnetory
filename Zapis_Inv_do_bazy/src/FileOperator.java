@@ -21,7 +21,7 @@ public class FileOperator {
 	 */
 	public static List<String> readFile(String path) throws IOException {
 		List<String> list = new ArrayList<String>();
-		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path), "Cp1250"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF-8"));
 		try {
 			String line = br.readLine();
 

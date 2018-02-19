@@ -1,5 +1,8 @@
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 public class MysqlModel {
@@ -29,7 +32,8 @@ public class MysqlModel {
 	}
 
 	private void execute(String sql) {
-			try {
+		// System.out.println(sql);
+		try {
 			statement.executeUpdate(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -37,8 +41,8 @@ public class MysqlModel {
 	}
 
 	public void save(String patch, String acl) {
-		patch= patch.replace("\\","/");
-		acl= acl.replace("\\","/");
+		patch = patch.replace("\\", "/");
+		acl = acl.replace("\\", "/");
 		guery = guery + " INSERT INTO `acl` ( `path`, `acl`) VALUES ( \"" + patch + "\", \"" + acl + "\"); \n";
 
 		queryCount++;
@@ -59,10 +63,18 @@ public class MysqlModel {
 		sql = "TRUNCATE TABLE `acl` ";
 
 		this.execute(sql);
+
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+
+		sql = " INSERT INTO `acl` ( `path`, `acl`) VALUES ( \"data\", \"" + dateFormat.format(date) + "\"); \n";
+
+		this.execute(sql);
 	}
 
 	public void disconnect() {
-		if (guery.length()>5) this.execute(guery);
+		if (guery.length() > 5)
+			this.execute(guery);
 		mysqlConnect.disconnect();
 	}
 
